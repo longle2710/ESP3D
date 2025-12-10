@@ -34,7 +34,7 @@
 #include "../filesystem/esp_sd.h"
 #endif  // SD_DEVICE
 
-#define DEFAULT_FRAME_SIZE FRAMESIZE_SVGA
+#define DEFAULT_FRAME_SIZE FRAMESIZE_QVGA
 #define JPEG_COMPRESSION 80
 
 Camera esp3d_camera;
@@ -266,9 +266,9 @@ bool Camera::initHardware() {
   config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 20000000;
+  config.xclk_freq_hz = 2000000;  // Reduced from 20MHz to 2MHz for ~2 FPS and less heat
   config.pixel_format = PIXFORMAT_JPEG;
-  config.jpeg_quality = 5;
+  config.jpeg_quality = 10;
   config.fb_count = 1;
   config.frame_size = DEFAULT_FRAME_SIZE;
   config.fb_location = CAMERA_FB_IN_PSRAM;

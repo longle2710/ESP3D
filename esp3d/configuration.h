@@ -73,6 +73,8 @@
 // Main serial port
 #define ESP_SERIAL_OUTPUT USE_SERIAL_0
 
+#define ESP_RX_PIN 44
+#define ESP_TX_PIN 43
 
 /* Optional Output 
  * Instead of Serial, you can use USB Serial
@@ -92,7 +94,15 @@
 /* Serial buffer size
  *  Maximum size of the serial buffer
  */
-#define SERIAL_RX_BUFFER_SIZE 512
+#define SERIAL_RX_BUFFER_SIZE 2048
+
+/* Hardware Flow Control
+ * Enable RTS/CTS hardware flow control to prevent FIFO overflow
+ * Uncomment to enable hardware flow control
+ * Note: You need to connect RTS and CTS pins between ESP32 and your device
+ * For ESP32-S3 UART1: RTS is typically GPIO19, CTS is typically GPIO20
+ */
+//#define ENABLE_SERIAL_HARDWARE_FLOWCONTROL
 
 /************************************
  *
@@ -108,7 +118,7 @@
  * SMOOTHIEWARE
  * REPETIER
  */
-#define DEFAULT_FW UNKNOWN_FW
+#define DEFAULT_FW MARLIN
 
 /************************************
  *
@@ -137,7 +147,7 @@
 // TYPE_ETH_PHY_KSZ8041
 // TYPE_ETH_PHY_KSZ8081
 // TYPE_ETH_PHY_W5500
-#define ESP3D_ETH_PHY_TYPE TYPE_ETH_PHY_W5500
+//#define ESP3D_ETH_PHY_TYPE TYPE_ETH_PHY_W5500
 
 // Ethernet board Clock mode
 //  MODE_ETH_CLOCK_GPIO0_IN
@@ -184,11 +194,11 @@
 /* Use telnet server
  * Enable telnet light (raw tcp) communications
  */
-#define TELNET_FEATURE
+// #define TELNET_FEATURE
 
 /* Disable telnet welcome message
  */
-#define DISABLE_TELNET_WELCOME_MESSAGE
+// #define DISABLE_TELNET_WELCOME_MESSAGE
 
 /* Use Websocket server
  * Enable websocket communications
@@ -197,17 +207,17 @@
 
 // Enable notifications
 // Allows to send notifications to the user
-#define NOTIFICATION_FEATURE
+// #define NOTIFICATION_FEATURE
 
 /* Notification message when online
  * The message that will be sent when the ESP is online
  */
-#define NOTIFICATION_ESP_ONLINE "Hi, %ESP_NAME% is now online at %ESP_IP%"
+// #define NOTIFICATION_ESP_ONLINE "Hi, %ESP_NAME% is now online at %ESP_IP%"
 
 /* Notification title message
  * The title of notification
  */
-#define ESP_NOTIFICATION_TITLE "ESP3D Notification"
+// #define ESP_NOTIFICATION_TITLE "ESP3D Notification"
 
 /************************************
  *
@@ -300,14 +310,14 @@
  * ESP_SHARED_SD //Printer SD Card is also connected to ESP3D
  * Does your system has SD card and how it is connected to your ESP3D
  */
- //#define SD_DEVICE_CONNECTION ESP_NOT_SHARED_SD
+ #define SD_DEVICE_CONNECTION ESP_NOT_SHARED_SD
 
 /* SD card library
  * ESP_SD_NATIVE //esp32 / esp8266
  * ESP_SDIO      //esp32 only
  * ESP_SDFAT2    //esp8266  / esp32
  */
- //#define SD_DEVICE ESP_SDFAT2
+ #define SD_DEVICE ESP_SD_NATIVE
 
 
 // #define SD_CARD_TYPE ESP_FYSETC_WIFI_PRO_SDCARD
@@ -353,10 +363,22 @@
 /* SD card CS pin
  * The pin used to select SD card in SPI mode
  */
- //#define ESP_SD_CS_PIN 21
- //#define ESP_SD_MISO_PIN 8
- //#define ESP_SD_MOSI_PIN 9
- //#define ESP_SD_SCK_PIN  7
+
+// The pin used to select SD card in SPI mode
+#define ESP_SD_CS_PIN 21
+
+// SD card Mosi pin
+// The Mosi pin used by SD in SPI mode
+#define ESP_SD_MOSI_PIN 9
+
+// SD card Miso pin
+// The Miso pin used by SD in SPI mode
+#define ESP_SD_MISO_PIN 8
+
+// SD card Sck pin
+// The Sck pin used by SD in SPI mode
+#define ESP_SD_SCK_PIN 7
+
  //#define ESP_SDIO_CMD_PIN 38
  //#define ESP_SDIO_D0_PIN 40
  //#define ESP_SDIO_CLK_PIN 39
@@ -425,7 +447,7 @@
 /* Enable Web Update
  * Update firmware using WebUI, need 4MB of flash
  */
-#define WEB_UPDATE_FEATURE
+// #define WEB_UPDATE_FEATURE
 
 /* Enable SD card Update
  * Update firmware and settings using file on SDCard
@@ -545,7 +567,7 @@
  * CAMERA_MODEL_XIAO_ESP32S3  
  * Camera connected to ESP board, only ones with PSRAM are supported
  */
-// #define CAMERA_DEVICE CAMERA_MODEL_XIAO_ESP32S3
+#define CAMERA_DEVICE CAMERA_MODEL_XIAO_ESP32S3
 
 /* Flip vertically
  * Flip camera vertically
